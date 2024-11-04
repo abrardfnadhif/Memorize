@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
+    @ObservedObject var viewModel: EmojiMemoryGame
+    
     enum Theme: String {
         case vehicle = "Vehicle"
         case animal = "Animal"
@@ -21,9 +23,10 @@ struct ContentView: View {
     @State var chosenEmojis: [String]
     @State var chosenTheme: Theme
     
-    init() {
+    init(viewModel: EmojiMemoryGame) {
         self.chosenEmojis = (vehicleEmojis + vehicleEmojis).shuffled()
         self.chosenTheme = Theme.vehicle
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -32,6 +35,9 @@ struct ContentView: View {
             ScrollView {
                 cards
             }
+            Button("Shuffle") {
+                viewModel.shuffle()
+            }
             Spacer()
             themeChangers
         }
@@ -39,10 +45,11 @@ struct ContentView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
-            ForEach(chosenEmojis.indices, id: \.self) { index in
-                CardView(content: chosenEmojis[index], theme: chosenTheme)
-                    .aspectRatio(1, contentMode: .fit)
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 0)], spacing: 0) {
+            ForEach(viewModel.cards.indices, id: \.self) { index in
+                CardView(viewModel.cards[index])
+                    .aspectRatio(2/3, contentMode: .fit)
+                    .padding(4)
             }
         }
         .foregroundColor(.orange)
@@ -55,7 +62,7 @@ struct ContentView: View {
             foodTheme
         }
         .imageScale(.large)
-        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+        .font(.title)
     }
     
     func themeChanger(theme: Theme, emojis: [String], symbol: String) -> some View {
@@ -86,9 +93,11 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    let content: String
-    var theme: ContentView.Theme
-    @State var isFaceUp = false
+    let card: MemoryGame<String>.Card
+    
+    init(_ card: MemoryGame<String>.Card) {
+        self.card = card
+    }
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -96,20 +105,18 @@ struct CardView: View {
             Group {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text(content).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                Text(card.content)
+                    .font(.system(size: 200))
+                    .minimumScaleFactor(0.01)
+                    .aspectRatio(1, contentMode: .fit)
             }
-            .opacity(isFaceUp ? 1 : 0)
-            base.fill().opacity(isFaceUp ? 0 : 1)
-        }
-        .onTapGesture {
-            isFaceUp.toggle()
-        }
-        .onChange(of: theme) {
-            isFaceUp = false
+                .opacity(card.isFaceUp ? 1 : 0)
+             base.fill()
+                .opacity(card.isFaceUp ? 0 : 1)
         }
     }
 }
 
 #Preview {
-    ContentView()
+    EmojiMemoryGameView(viewModel: EmojiMemoryGame())
 }

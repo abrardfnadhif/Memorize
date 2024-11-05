@@ -8,10 +8,21 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    private static let emojis = ["🚕", "🛴", "🏍️", "🚂", "✈️", "🚁", "⛵️", "🚢"]
+    private static let vehicleEmojis: [String] = ["🚕", "🛴", "🏍️", "🚂", "✈️", "🚁", "⛵️", "🚢"]
+    private static let animalEmojis: [String] = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐯", "🦁", "🐮", "🐷"]
+    private static let foodEmojis: [String] = ["🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🍅", "🍆"]
     
-    private static func createMemoryGame() -> MemoryGame<String> {
-        return MemoryGame(numberOfPairsOfCards: emojis.count) { pairIndex in
+    private static func createMemoryTheme() -> MemoryTheme {
+        var memoryTheme = MemoryTheme()
+        memoryTheme.createNewTheme(name: "Vehicle", emojis: vehicleEmojis, numberOfPairs: vehicleEmojis.count, color: .red)
+        memoryTheme.createNewTheme(name: "Animal", emojis: animalEmojis, numberOfPairs: animalEmojis.count, color: .green)
+        memoryTheme.createNewTheme(name: "Food", emojis: foodEmojis, numberOfPairs: foodEmojis.count, color: .blue)
+        
+        return memoryTheme
+    }
+    
+    private func createMemoryGame(numberOfPairs: Int, emojis: [String]) -> MemoryGame<String> {
+        return MemoryGame(numberOfPairsOfCards: numberOfPairs) { pairIndex in
             if emojis.indices.contains(pairIndex) {
                 return emojis[pairIndex]
             } else {
@@ -20,18 +31,46 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
-    @Published private var model = createMemoryGame()
+    @Published private var memoryTheme = createMemoryTheme()
+    @Published private var memoryGame: MemoryGame<String>? = nil
+    
+    var chosenTheme: MemoryTheme.Theme? {
+        return memoryTheme.chosenTheme
+    }
     
     var cards: Array<MemoryGame<String>.Card> {
-        return model.cards
+        if memoryGame == nil {
+            return []
+        } else {
+            return memoryGame!.cards
+        }
+    }
+    
+    var score: Int {
+        if memoryGame == nil {
+            return 0
+        } else {
+            return memoryGame!.score
+        }
     }
     
 //    MARK: - intents
+    func newGame() {
+        memoryTheme.randomChooseTheme()
+        if memoryTheme.chosenTheme != nil {
+            memoryGame = createMemoryGame(numberOfPairs: memoryTheme.chosenTheme!.numberOfPairs, emojis: memoryTheme.chosenTheme!.emojis.shuffled())
+        }
+    }
+    
     func shuffle() {
-        model.shuffle()
+        if memoryGame != nil {
+            memoryGame!.shuffle()
+        }
     }
     
     func choose(_ card: MemoryGame<String>.Card) {
-        model.choose(card: card)
+        if memoryGame != nil {
+            memoryGame!.choose(card: card)
+        }
     }
 }

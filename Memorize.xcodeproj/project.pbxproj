@@ -18,6 +18,7 @@
 		B59EA2F52CDB078500738001 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59EA2F42CDB078500738001 /* CardView.swift */; };
 		B59EA2F72CDB0E7100738001 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59EA2F62CDB0E7100738001 /* Pie.swift */; };
 		B59EA2F92CDB149300738001 /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59EA2F82CDB149300738001 /* Cardify.swift */; };
+		B59EA3182CDB2F8900738001 /* FlyingNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59EA3172CDB2F8900738001 /* FlyingNumber.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		B59EA2F42CDB078500738001 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		B59EA2F62CDB0E7100738001 /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
 		B59EA2F82CDB149300738001 /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
+		B59EA3172CDB2F8900738001 /* FlyingNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingNumber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				B59EA2EE2CD9D8AA00738001 /* MemoryTheme.swift */,
 				B554ED702CD594A500131D84 /* MemorizeApp.swift */,
 				B554ED722CD594A500131D84 /* EmojiMemoryGameView.swift */,
+				B59EA3172CDB2F8900738001 /* FlyingNumber.swift */,
 				B59EA2F42CDB078500738001 /* CardView.swift */,
 				B59EA2F82CDB149300738001 /* Cardify.swift */,
 				B59EA2F62CDB0E7100738001 /* Pie.swift */,
@@ -167,6 +170,7 @@
 				B554ED712CD594A500131D84 /* MemorizeApp.swift in Sources */,
 				B59EA2AD2CD8ADA800738001 /* MemoryGame.swift in Sources */,
 				B59EA2AF2CD8AF8400738001 /* EmojiMemoryGame.swift in Sources */,
+				B59EA3182CDB2F8900738001 /* FlyingNumber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,8 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
+    typealias Card = MemoryGame<String>.Card
+    
     private static let vehicleEmojis: [String] = ["🚕", "🛴", "🏍️", "🚂", "✈️", "🚁", "⛵️", "🚢"]
     private static let animalEmojis: [String] = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐯", "🦁", "🐮", "🐷"]
     private static let foodEmojis: [String] = ["🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🍅", "🍆"]
@@ -38,7 +40,7 @@ class EmojiMemoryGame: ObservableObject {
         return memoryTheme.chosenTheme
     }
     
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         if memoryGame == nil {
             return []
         } else {
@@ -68,7 +70,7 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         if memoryGame != nil {
             memoryGame!.choose(card: card)
         }

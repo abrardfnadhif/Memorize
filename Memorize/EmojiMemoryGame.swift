@@ -16,8 +16,8 @@ class EmojiMemoryGame: ObservableObject {
     
     private static func createMemoryTheme() -> MemoryTheme {
         var memoryTheme = MemoryTheme()
-        memoryTheme.createNewTheme(name: "Vehicle", emojis: vehicleEmojis, numberOfPairs: vehicleEmojis.count, color: .red)
-        memoryTheme.createNewTheme(name: "Animal", emojis: animalEmojis, numberOfPairs: animalEmojis.count, color: .green)
+        memoryTheme.createNewTheme(name: "Vehicle", emojis: vehicleEmojis, numberOfPairs: vehicleEmojis.count, color: .orange)
+        memoryTheme.createNewTheme(name: "Animal", emojis: animalEmojis, numberOfPairs: animalEmojis.count, color: .teal)
         memoryTheme.createNewTheme(name: "Food", emojis: foodEmojis, numberOfPairs: foodEmojis.count, color: .blue)
         
         return memoryTheme

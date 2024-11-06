@@ -8,14 +8,16 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
+    typealias Card = MemoryGame<String>.Card
+    
     private static let vehicleEmojis: [String] = ["🚕", "🛴", "🏍️", "🚂", "✈️", "🚁", "⛵️", "🚢"]
     private static let animalEmojis: [String] = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐯", "🦁", "🐮", "🐷"]
     private static let foodEmojis: [String] = ["🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🍅", "🍆"]
     
     private static func createMemoryTheme() -> MemoryTheme {
         var memoryTheme = MemoryTheme()
-        memoryTheme.createNewTheme(name: "Vehicle", emojis: vehicleEmojis, numberOfPairs: vehicleEmojis.count, color: .red)
-        memoryTheme.createNewTheme(name: "Animal", emojis: animalEmojis, numberOfPairs: animalEmojis.count, color: .green)
+        memoryTheme.createNewTheme(name: "Vehicle", emojis: vehicleEmojis, numberOfPairs: vehicleEmojis.count, color: .orange)
+        memoryTheme.createNewTheme(name: "Animal", emojis: animalEmojis, numberOfPairs: animalEmojis.count, color: .teal)
         memoryTheme.createNewTheme(name: "Food", emojis: foodEmojis, numberOfPairs: foodEmojis.count, color: .blue)
         
         return memoryTheme
@@ -38,7 +40,7 @@ class EmojiMemoryGame: ObservableObject {
         return memoryTheme.chosenTheme
     }
     
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         if memoryGame == nil {
             return []
         } else {
@@ -68,7 +70,7 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         if memoryGame != nil {
             memoryGame!.choose(card: card)
         }

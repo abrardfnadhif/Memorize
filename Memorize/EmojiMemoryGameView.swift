@@ -23,10 +23,9 @@ struct EmojiMemoryGameView: View {
                 information
                 cards
                     .opacity(viewModel.cards.count == 0 ? 0 : 1)
-                    .foregroundColor(viewModel.chosenTheme == nil ? .red : viewModel.chosenTheme!.color)
+                    .foregroundColor(Color(rgba: viewModel.theme.color))
                 
             }
-            .opacity(viewModel.chosenTheme == nil ? 0 : 1)
             Spacer()
             footer
         }
@@ -36,7 +35,6 @@ struct EmojiMemoryGameView: View {
     private var footer: some View {
         HStack {
             Button(action: {
-                viewModel.newGame()
                 withAnimation {
                     dealt.removeAll()
                     viewModel.shuffle()
@@ -44,19 +42,20 @@ struct EmojiMemoryGameView: View {
             }, label: {
                 Text("New Game")
                     .font(.title)
+                    .foregroundStyle(Color(rgba: viewModel.theme.color))
             })
             Spacer()
             deck
-                .foregroundColor(viewModel.chosenTheme?.color)
+                .foregroundColor(Color(rgba: viewModel.theme.color))
         }
     }
     
     private var information: some View {
         VStack(alignment: .leading) {
-            Text("Theme: \(viewModel.chosenTheme?.name ?? "")")
+            Text("Theme: \(viewModel.theme.name)")
             Text("Score: \(viewModel.score)")
             Text("Game Over")
-                .opacity(viewModel.cards.count == 0 && viewModel.chosenTheme != nil ? 1 : 0)
+                .opacity(viewModel.cards.count == 0 ? 1 : 0)
         }
     }
     
@@ -103,19 +102,17 @@ struct EmojiMemoryGameView: View {
     
     @ViewBuilder
     private var cards: some View {
-        if viewModel.chosenTheme != nil {
-            AspectVGrid(viewModel.cards, aspectRatio: aspectRatio) { card in
-                if isDealt(card) {
-                    CardView(card)
-                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                        .transition(.identity)
-                        .padding(spacing)
-                        .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
-                        .zIndex(scoreChange(causedBy: card) != 0 ? 100 : 0)
-                        .onTapGesture {
-                            choose(card)
-                        }
-                }
+        AspectVGrid(viewModel.cards, aspectRatio: aspectRatio) { card in
+            if isDealt(card) {
+                CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.identity)
+                    .padding(spacing)
+                    .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
+                    .zIndex(scoreChange(causedBy: card) != 0 ? 100 : 0)
+                    .onTapGesture {
+                        choose(card)
+                    }
             }
         }
     }
@@ -138,5 +135,5 @@ struct EmojiMemoryGameView: View {
 }
 
 #Preview {
-    EmojiMemoryGameView(viewModel: EmojiMemoryGame())
+    EmojiMemoryGameView(viewModel: EmojiMemoryGame(theme: ThemeModel.builtins[0]))
 }
